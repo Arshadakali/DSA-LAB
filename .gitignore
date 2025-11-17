@@ -1,0 +1,41 @@
+# OS/filesystem
+.DS_Store
+Thumbs.db
+
+# Editors/IDE
+.vscode/
+.idea/
+
+# Build outputs
+bin/
+build/
+dist/
+
+# Compiled binaries/libraries
+**/*.exe
+**/*.dll
+**/*.lib
+**/*.exp
+**/*.pdb
+
+# Object files
+**/*.o
+**/*.obj
+
+# Archives
+**/*.zip
+**/*.7z
+**/*.rar
+
+# Logs
+**/*.log
+
+# Local tools/artifacts
+Assembly/install.exe
+Assembly/masm32v11r.zip
+Assembly/nasm-win64.zip
+Assembly/nasm-2.16.03/
+
+# Keep batch scripts tracked
+!Assembly/run_asm.bat
+!Assembly/run_nasm.bat

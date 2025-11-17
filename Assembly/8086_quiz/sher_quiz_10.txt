@@ -1,0 +1,46 @@
+8086 Assembly – sher.asm Code-Based Questions and Answers
+
+Question 1: Name Input Length and Terminator
+- Final value at `[NAMEBUF+1]` after entering "Dr. W": 5 (decimal).
+- Character stored at `NAMEBUF + 2 + 5` (i.e., `NAMEBUF+7`) by `MOV BYTE PTR [SI], '$'`: `$` (0x24).
+
+Question 2: Marks Validation (Non-Numeric Input)
+- Input: `7A`.
+- First jump in `VALIDATE_LOOP` that diverts flow: `JA SET_DEFAULT_MARKS` (after `CMP AL, '9'`).
+- Final `MARKS` value: 0.
+
+Question 3: Marks Conversion Trace (Single Digit)
+- Input: `7`.
+- `MUL BL` executions in `CONVERT_MARKS`: 1 time.
+- Final `AL` at `DONE_CONVERT`: 7.
+
+Question 4: Marks Conversion Trace (Two Digits)
+- Input: `45`.
+- `AL` just before second `ADD AL, DL` (processing `'5'`): 40.
+- `CL` value immediately before the second `JMP CONVERT_MARKS`: 0.
+
+Question 5: Grade Determination (Edge Case)
+- Input: `79`.
+- Last `CMP` executed before jump: `CMP AL, 70`.
+- Jump target after `CMP AL, 70`: `GRADE_C` (because 79 ≥ 70).
+
+Question 6: Grade Determination (Lowest Pass)
+- Input: `60`.
+- Final grade label: `GRADE_D`.
+- Character stored in `GRADE`: `D`.
+
+Question 7: PRINT_NUM Procedure Trace (MARKS = 84)
+- Remainders pushed by `PN_CONV` (in push order): 4, then 8.
+- First character printed by `PN_PRINT`: `8`.
+
+Question 8: Displaying the Grade
+- Reason for using `AH=02h` instead of `AH=09h`: `AH=09h` prints `$`-terminated strings, while grade is a single character; `AH=02h` prints one character in `DL`.
+- Required register for `AH=02h`: `DL` must hold the character.
+
+Question 9: Procedure Setup and Cleanup
+- Purpose of initial `PUSH AX/BX/CX/DX`: preserve caller registers (save state) so the procedure can modify them safely.
+- Consequence if `POP`s were omitted: stack corruption; `RET` would return to an incorrect address (top of stack is not the return address), causing a crash or undefined behavior.
+
+Question 10: Exit and Memory Model
+- Purpose of `MOV AH, 4Ch / INT 21h`: terminate program and return exit code in `AL` to DOS.
+- `.MODEL SMALL` implication: one code segment and one data segment, each up to 64 KB (separate segments; each segment ≤ 64 KB).

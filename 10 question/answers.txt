@@ -1,0 +1,41 @@
+8086 Assembly Code-Based Questions — Answers
+
+1) Name Input Length and Terminator
+- [NAMEBUF+1] value: 5 (for input "Dr. W" → 5 characters).
+- After MOV BYTE PTR [SI], '$': '$' is written at [NAMEBUF+2+5] = [NAMEBUF+7].
+
+2) Marks Validation (input "7A")
+- First jump taken inside VALIDATE_LOOP: JA SET_DEFAULT_MARKS (triggered by 'A' > '9').
+- Final MARKS value: 0.
+
+3) Marks Conversion Trace (input "7")
+- MUL BL executes: 1 time.
+- Final AL at DONE_CONVERT: 7.
+
+4) Marks Conversion Trace (input "45")
+- AL just before the second ADD AL, DL (processing '5'): 40.
+- CL immediately before the second JMP CONVERT_MARKS: 0.
+
+5) Grade Determination (input "79")
+- Last CMP executed before jump: CMP AL, 70.
+- Jump destination after CMP AL, 70: GRADE_C.
+
+6) Grade Determination (input "60")
+- Final grade label: GRADE_D.
+- GRADE stored character: 'D'.
+
+7) PRINT_NUM Procedure Trace (MARKS = 84)
+- Values pushed by PN_CONV (remainders): 4, then 8 (two pushes; 84 has two digits).
+- First character printed by PN_PRINT: '8'.
+
+8) Displaying the Grade
+- Reason for AH=02h: prints a single character; AH=09h requires a "$"-terminated string.
+- Required register for AH=02h: DL holds the character.
+
+9) Procedure Setup and Cleanup (PRINT_NUM)
+- Purpose of the initial PUSHes: preserve AX, BX, CX, DX so the caller’s registers and state remain intact.
+- Consequence if POPs are omitted: stack becomes unbalanced; RET pops a saved register as the return address → wrong return, crash/undefined behavior; registers remain corrupted.
+
+10) Exit and Memory Model
+- MOV AH, 4Ch / INT 21h: terminate program and return control to DOS; AL can carry the exit code.
+- .MODEL SMALL: one code segment and one data segment, each limited to ≤ 64 KB (code ≤ 64 KB, data ≤ 64 KB).
