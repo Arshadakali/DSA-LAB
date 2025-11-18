@@ -22,7 +22,7 @@ root = tk.Tk()
 root.title("Login Screen")
 root.geometry("300x200")
 
-# Wireframe elements
+# Wireframe elements 
 title = tk.Label(root, text="Login Screen", font=("Arial", 14, "bold"))
 title.pack(pady=15)
 

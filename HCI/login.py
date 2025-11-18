@@ -31,6 +31,7 @@ password_label = tk.Label(root, text="Password:")
 password_label.pack()
 password_entry = tk.Entry(root, show="*")
 password_entry.pack()
+
 login_button = tk.Button(root, text="Login", command=show)
 login_button.pack(side=tk.LEFT, padx=15, pady=10)
 clear_button = tk.Button(root, text="Clear", command=clear)
