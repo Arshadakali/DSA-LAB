@@ -1,94 +1,93 @@
 #include <iostream>
 using namespace std;
 
-struct Node {
+// Node class
+class Node {
+public:
     int data;
     Node* next;
-    Node(int d) : data(d), next(nullptr) {}
+    Node(int new_data) {
+        data = new_data;
+        next = nullptr;
+    }
 };
 
-class LinkedListQueue {
-    Node* front_;
-    Node* rear_;
-    size_t count_;
+// Queue class
+class myQueue {
+private:
+    int currSize;
+    Node* front;
+    Node* rear;
+
 public:
-    LinkedListQueue() : front_(nullptr), rear_(nullptr), count_(0) {}
-
-    bool isEmpty() const { return front_ == nullptr; }
-    size_t size() const { return count_; }
-
-    void enqueue(int x) {
-        Node* node = new Node(x);
-        if (isEmpty()) {
-            front_ = rear_ = node;
-        } else {
-            rear_->next = node;
-            rear_ = node;
-        }
-        ++count_;
+    myQueue() {
+        currSize = 0;
+        front = rear= nullptr;
     }
 
+    // Check if empty
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    // Enqueue
+    void enqueue(int new_data) {
+        Node* node = new Node(new_data);
+        if (isEmpty()) {
+            front = rear = node;
+        } else {
+            rear->next = node;
+            rear = node;
+        }
+        
+        currSize++;
+    }
+
+    // Dequeue
     int dequeue() {
         if (isEmpty()) {
-            cout << "Queue is empty" << endl;
+            cout << "Queue Underflow" << endl;
             return -1;
         }
-        Node* tmp = front_;
-        int val = tmp->data;
-        front_ = front_->next;
-        if (front_ == nullptr) {
-            rear_ = nullptr;
-        }
-        delete tmp;
-        --count_;
-        return val;
+        
+        Node* temp = front;
+        int removedData = temp->data;
+        front = front->next;
+        
+        if (front == nullptr) rear = nullptr;
+        delete temp;
+        
+        currSize--;
+        return removedData;
     }
 
-    int frontValue() const {
+    // Get front element
+    int getfront() {
         if (isEmpty()) {
             cout << "Queue is empty" << endl;
             return -1;
         }
-        return front_->data;
+        return front->data;
     }
 
-    void show() const {
-        if (isEmpty()) {
-            cout << "Queue is empty" << endl;
-            return;
-        }
-        Node* curr = front_;
-        while (curr) {
-            cout << curr->data << " ";
-            curr = curr->next;
-        }
-        cout << endl;
-    }
-
-    void clear() {
-        while (!isEmpty()) {
-            dequeue();
-        }
+    // Get size
+    int size() {
+       return currSize;
     }
 };
 
 int main() {
-    LinkedListQueue q;
+    myQueue q;
+    
     q.enqueue(10);
     q.enqueue(20);
+
+    cout << "Dequeue: " << q.dequeue() << "\n";
+    
     q.enqueue(30);
-    q.enqueue(40);
-    q.enqueue(50);
-    q.show();          // 10 20 30 40 50
-    q.dequeue();       // removes 10
-    q.show();          // 20 30 40 50
-    q.enqueue(60);
-    q.show();          // 20 30 40 50 60
 
-    cout << "Front: " << q.frontValue() << endl;  // 20
-    cout << "Size: " << q.size() << endl;         // 5
+    cout << "Front: " << q.getfront() << endl;
+    cout << "Size: " << q.size() << endl;
 
-    q.clear();
-    q.show();          // Queue is empty
     return 0;
 }
